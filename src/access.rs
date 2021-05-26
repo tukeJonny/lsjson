@@ -2,21 +2,21 @@ use std::fs;
 use std::path::Path;
 
 use anyhow::Result;
-use serde_json::Value;
-use serde_json::map::Map;
+use serde_json::Value as JSONValue;
+use serde_json::map::Map as JSONMap;
 
 
-pub fn read_json<P: AsRef<Path>>(path: P) -> Result<Map<String, Value>> {
+pub fn read_json<P: AsRef<Path>>(path: P) -> Result<JSONMap<String, JSONValue>> {
     let content = fs::read_to_string(path)?;
     parse_json(&content)
 }
 
-fn parse_json(content: &str) -> Result<Map<String, Value>> {
-    let deserialized: Map<String, Value> = serde_json::from_str(content)?;
+fn parse_json(content: &str) -> Result<JSONMap<String, JSONValue>> {
+    let deserialized: JSONMap<String, JSONValue> = serde_json::from_str(content)?;
     Ok(deserialized)
 }
 
-fn walk_json(m: Map<String, Value>, cur: &str) -> Vec<String> {
+fn walk_json(m: JSONMap<String, JSONValue>, cur: &str) -> Vec<String> {
     let mut vec: Vec<String> = Vec::new();
     for (key, value) in m.into_iter() {
         let next_cur = [cur, &key].join(".");
@@ -32,7 +32,9 @@ fn walk_json(m: Map<String, Value>, cur: &str) -> Vec<String> {
 
 pub fn get_json_keys<P: AsRef<Path>>(path: P) -> Result<Vec<String>> {
     let json_map = read_json(path)?;
-    Ok(walk_json(json_map, &""))
+    let mut keys = walk_json(json_map, &"");
+    keys.sort();
+    Ok(keys)
 }
 
 #[cfg(test)]

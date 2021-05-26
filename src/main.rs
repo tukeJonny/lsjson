@@ -31,13 +31,17 @@ fn run_app() -> Result<ExitCode> {
         .value_of("file-path")
         .expect("Failed to get path argument");
 
-    if let Ok(keys) = get_json_keys(path) {
-        for json_path in &keys {
-            println!("{:#}", json_path);
+    match get_json_keys(path) {
+        Ok(keys) => {
+            for json_path in &keys {
+                println!("{:#}", json_path);
+            }
+            Ok(ExitCode::Success)
+        },
+        Err(e) => {
+            eprintln!("Failed to get json keys: {:#}", e);
+            Ok(ExitCode::Failure)
         }
-        Ok(ExitCode::Success)
-    } else {
-        Ok(ExitCode::Failure)
     }
 }
 
