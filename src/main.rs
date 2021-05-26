@@ -7,9 +7,8 @@ use std::process;
 use anyhow::Result;
 use clap::{crate_version, App, AppSettings, Arg};
 
-use crate::exitcode::ExitCode;
 use crate::access::get_json_keys;
-
+use crate::exitcode::ExitCode;
 
 fn build_app() -> App<'static, 'static> {
     let app = App::new("lsjson")
@@ -19,7 +18,7 @@ fn build_app() -> App<'static, 'static> {
         .arg(
             Arg::with_name("file-path")
                 .help("the path to json file")
-                .required(true)
+                .required(true),
         );
 
     app
@@ -37,7 +36,7 @@ fn run_app() -> Result<ExitCode> {
                 println!("{:#}", json_path);
             }
             Ok(ExitCode::Success)
-        },
+        }
         Err(e) => {
             eprintln!("Failed to get json keys: {:#}", e);
             Ok(ExitCode::Failure)

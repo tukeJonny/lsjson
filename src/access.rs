@@ -2,9 +2,8 @@ use std::fs;
 use std::path::Path;
 
 use anyhow::Result;
-use serde_json::Value as JSONValue;
 use serde_json::map::Map as JSONMap;
-
+use serde_json::Value as JSONValue;
 
 pub fn read_json<P: AsRef<Path>>(path: P) -> Result<JSONMap<String, JSONValue>> {
     let content = fs::read_to_string(path)?;
