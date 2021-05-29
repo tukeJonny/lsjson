@@ -57,7 +57,6 @@ Please download binaries from [Release](https://github.com/tukeJonny/lsjson/rele
 ## Todo
 
 * --stdin ... input json content from stdin
-* --path ... dig into specified path
 * --search-key ... print key includes specified key
 * --search-value ... print key has specified value
 * --values ... print all keys has scalar value
