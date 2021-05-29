@@ -41,13 +41,12 @@ fn run_app() -> Result<ExitCode> {
     match get_json_keys(path) {
         Ok(result) => {
             let json_keys = match matches.value_of("json-path") {
-                Some(json_path) => {
-                    result.iter()
-                          .filter(|key| key.starts_with(json_path))
-                          .cloned()
-                          .collect::<Vec<String>>()
-                },
-                None => result
+                Some(json_path) => result
+                    .iter()
+                    .filter(|key| key.starts_with(json_path))
+                    .cloned()
+                    .collect::<Vec<String>>(),
+                None => result,
             };
 
             for json_path in &json_keys {
